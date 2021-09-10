@@ -79,10 +79,10 @@ class TestClassifyTriangle(unittest.TestCase):
         Any time the three sides match the required for right triangles, the returned string should contain "right."
         Any other values are also permitted in this string.
         """
-        # Pick two numbers and calculate the third.
+        # Pick known Pythagorean numbers.
         s1 = 3.0
         s2 = 4.0
-        s3 = math.sqrt(s1 ** 2 + s2 ** 2)
+        s3 = 5.0
         # The order of arguments shouldn't matter. I got the example of using permutations from:
         # https://www.geeksforgeeks.org/permutation-and-combination-in-python/
         unique_orders = permutations([s1, s2, s3])
