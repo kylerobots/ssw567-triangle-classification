@@ -20,7 +20,11 @@ def classify_triangle(s1: float, s2: float, s3: float) -> str:
     @return A string containing the classification of the triangle
     """
     # First, verify that all arguments are numbers greater than 0. This can't be a triangle otherwise.
-    if not (s1 > 0.0 and s2 > 0.0 and s3 > 0.0):
+    # This is also where any non-numeric types will throw errors. So watch for that and return "invalid" if it occurs.
+    try:
+        if not (s1 > 0.0 and s2 > 0.0 and s3 > 0.0):
+            return 'invalid'
+    except:
         return 'invalid'
     # Then, see if it is an equilateral triangle, which can't also be right.
     if s1 == s2 and s1 == s3:
