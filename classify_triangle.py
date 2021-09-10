@@ -19,4 +19,28 @@ def classify_triangle(s1: float, s2: float, s3: float) -> str:
     @param s3 The last edge of the triangle (order does not matter)
     @return A string containing the classification of the triangle
     """
-    return ''
+    # First, verify that all arguments are numbers greater than 0. This can't be a triangle otherwise.
+    if not (s1 > 0.0 and s2 > 0.0 and s3 > 0.0):
+        return 'invalid'
+    # Then, see if it is an equilateral triangle, which can't also be right.
+    if s1 == s2 and s1 == s3:
+        return 'equilateral'
+    # Next, isosceles and scalene triangles can be right, so check that. Watch for floating point.
+    # Since the order of the sides doesn't matter, check all possible combinations
+    right12 = s1**2 + s2**2 == s3**2
+    right13 = s1**2 + s3**2 == s2**2
+    right23 = s2**2 + s3**2 == s1**2
+    if right12 or right13 or right23:
+        result = 'right '
+    else:
+        result = ''
+    # Now see if it is an isosceles triangle
+    iso12 = s1 == s2
+    iso13 = s1 == s3
+    iso23 = s2 == s3
+    if iso12 or iso13 or iso23:
+        result += 'isosceles'
+    else:
+        # If it isn't any of the above, it has to be scalene
+        result += 'scalene'
+    return result
