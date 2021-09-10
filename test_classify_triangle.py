@@ -29,8 +29,8 @@ class TestClassifyTriangle(unittest.TestCase):
         Any time two sides are the same, the returned string should contain "isosceles."
         """
         # Try several different positive values.
-        for s1 in (1, 1.5, 100000.0):
-            for s2 in (2.8, 7.6, 4):
+        for s1 in (2.8, 7.6, 1000.0):
+            for s2 in (1, 1.5, 1.25):
                 # Test that the position of the arguments doesn't matter.
                 for i in range(3):
                     if i == 0:
@@ -57,9 +57,9 @@ class TestClassifyTriangle(unittest.TestCase):
         """
         # Just pick some different values.
         inputs = []
-        inputs.append((1.0, 2.0, 3.0))
+        inputs.append((1.0, 2.0, 2.5))
         inputs.append((3.0, 4.0, 5.0))
-        inputs.append((1000, 2000, 3000))
+        inputs.append((1000, 2000, 2500))
         for input in inputs:
             result = classify_triangle(input[0], input[1], input[2])
             self.assertTrue('scalene' in result,
@@ -99,12 +99,20 @@ class TestClassifyTriangle(unittest.TestCase):
         Any time invalid arguments are supplied, return "invalid." This includes:
         * Any side is a nonpositive number
         * Any side is not a number
+        * Triangle inequality is violated
         """
-        # All of these should only have the string "invalid" with nothing else.
-        result = classify_triangle(0, 0, 0.0)
-        self.assertTrue(result == 'invalid')
-        # This also makes sure that "right" doesn't get prepended on.
-        result = classify_triangle(-3.0, 4.0, 5.0)
-        self.assertTrue(result == 'invalid')
+        inputs = []
+        inputs.append((0, 0, 0.0))
+        inputs.append(('3.0', 4.0, 5.0))
         result = classify_triangle('3.0', 4.0, 5.0)  # type: ignore
-        self.assertTrue(result == 'invalid')
+        # This also makes sure that "right" doesn't get prepended on.
+        inputs.append((-3.0, 4.0, 5.0))
+        # The sum of any two of the sides of a triangle must be greater than the third:
+        # https://en.wikipedia.org/wiki/Triangle#Condition_on_the_sides
+        inputs.append((1.0, 2.0, 3.0))
+        inputs.append((0.5, 0.5, 2.0))
+        for input in inputs:
+            result = classify_triangle(input[0], input[1], input[2])
+            # All of these should only have the string "invalid" with nothing else.
+            self.assertTrue(
+                result == 'invalid', 'result should be invalid, but it is {0:s}'.format(result))

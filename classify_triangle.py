@@ -29,6 +29,13 @@ def classify_triangle(s1: float, s2: float, s3: float) -> str:
             return 'invalid'
     except:
         return 'invalid'
+    # Verify the triangle inequality holds for all combinations of sides. Use the strict case to avoid degenerate
+    # triangles.
+    ineq12 = s1 + s2 > s3
+    ineq13 = s1 + s3 > s2
+    ineq23 = s2 + s3 > s1
+    if not (ineq12 and ineq13 and ineq23):
+        return 'invalid'
     # Then, see if it is an equilateral triangle, which can't also be right.
     if s1 == s2 and s1 == s3:
         return 'equilateral'
