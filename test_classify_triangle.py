@@ -1,6 +1,5 @@
 from classify_triangle import classify_triangle
 from itertools import permutations
-import math
 import unittest
 
 
