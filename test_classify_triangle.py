@@ -1,6 +1,10 @@
-from classify_triangle import classify_triangle
+"""
+Module to test the classify_triangle module.
+"""
+
 from itertools import permutations
 import unittest
+from classify_triangle import classify_triangle
 
 
 class TestClassifyTriangle(unittest.TestCase):
@@ -15,8 +19,8 @@ class TestClassifyTriangle(unittest.TestCase):
         Any time all three inputs are equal, the returned string should contain "equilateral."
         """
         # Try several different positive values.
-        for s in (1, 1.5, 100000.0):
-            result = classify_triangle(s, s, s)
+        for side in (1, 1.5, 100000.0):
+            result = classify_triangle(side, side, side)
             # If it is equilateral, it can only contain that keyword, none of the others.
             self.assertTrue(result == 'equilateral',
                             'string does not match expected value of "equilateral"')
@@ -28,19 +32,20 @@ class TestClassifyTriangle(unittest.TestCase):
         Any time two sides are the same, the returned string should contain "isosceles."
         """
         # Try several different positive values.
-        for s1 in (2.8, 7.6, 1000.0):
-            for s2 in (1, 1.5, 1.25):
+        for leg in (2.8, 7.6, 1000.0):
+            for base in (1, 1.5, 1.25):
                 # Test that the position of the arguments doesn't matter.
                 for i in range(3):
                     if i == 0:
-                        result = classify_triangle(s1, s1, s2)
+                        result = classify_triangle(leg, leg, base)
                     elif i == 1:
-                        result = classify_triangle(s1, s2, s1)
+                        result = classify_triangle(leg, base, leg)
                     else:
-                        result = classify_triangle(s2, s1, s1)
+                        result = classify_triangle(base, leg, leg)
                     self.assertTrue('isosceles' in result,
                                     'isosceles not present when it should be')
-                    # There shouldn't be any 'equilateral' or 'scalene'. 'Right' is optional and not checked here.
+                    # There shouldn't be any 'equilateral' or 'scalene'.
+                    # 'Right' is optional and not checked here.
                     self.assertFalse('scalene' in result,
                                      'scalene is present when it should not be')
                     self.assertFalse('equilateral' in result,
@@ -52,7 +57,8 @@ class TestClassifyTriangle(unittest.TestCase):
         """
         @test Tests that the function properly recognizes scalene triangles.
 
-        Any time the three sides are different lengths, the returned string should contain "scalene."
+        Any time the three sides are different lengths, the returned string
+        should contain "scalene."
         """
         # Just pick some different values.
         inputs = []
@@ -76,16 +82,17 @@ class TestClassifyTriangle(unittest.TestCase):
         """
         @test Tests that the function properly recognizes right triangles.
 
-        Any time the three sides match the required for right triangles, the returned string should contain "right."
+        Any time the three sides match the required for right triangles, the
+        returned string should contain "right."
         Any other values are also permitted in this string.
         """
         # Pick known Pythagorean numbers.
-        s1 = 3.0
-        s2 = 4.0
-        s3 = 5.0
+        side1 = 3.0
+        side2 = 4.0
+        side3 = 5.0
         # The order of arguments shouldn't matter. I got the example of using permutations from:
         # https://www.geeksforgeeks.org/permutation-and-combination-in-python/
-        unique_orders = permutations([s1, s2, s3])
+        unique_orders = permutations([side1, side2, side3])
         for single_order in unique_orders:
             result = classify_triangle(
                 single_order[0], single_order[1], single_order[2])
@@ -116,7 +123,7 @@ class TestClassifyTriangle(unittest.TestCase):
                 single_input[0], single_input[1], single_input[2])
             # All of these should only have the string "invalid" with nothing else.
             self.assertTrue(
-                result == 'invalid', 'result should be invalid, but it is {0:s}'.format(result))
+                result == 'invalid', f'result should be invalid, but it is {result}')
 
 
 if __name__ == '__main__':
