@@ -116,3 +116,7 @@ class TestClassifyTriangle(unittest.TestCase):
             # All of these should only have the string "invalid" with nothing else.
             self.assertTrue(
                 result == 'invalid', 'result should be invalid, but it is {0:s}'.format(result))
+
+
+if __name__ == '__main__':
+    unittest.main()
