@@ -4,7 +4,7 @@ A module that helps classify types of triangles.
 import argparse
 
 
-def classify_triangle(s_1: float, s_2: float, s_3: float) -> str:
+def classify_triangle(side1: float, side2: float, side3: float) -> str:
     """
     @brief Classify the type of a triangle based on its sides.
 
@@ -21,9 +21,9 @@ def classify_triangle(s_1: float, s_2: float, s_3: float) -> str:
     * classify_triangle(3, 4, 5) returns "right scalene"
     * classify_triangle(0, 0, 0) returns "invalid"
 
-    @param s1 The first edge of the triangle (order does not matter)
-    @param s2 The second edge of the triangle (order does not matter)
-    @param s3 The last edge of the triangle (order does not matter)
+    @param side1 The first edge of the triangle (order does not matter)
+    @param side2 The second edge of the triangle (order does not matter)
+    @param side3 The last edge of the triangle (order does not matter)
     @return A string containing the classification of the triangle
     """
     # First, verify that all arguments are numbers greater than 0. This can't
@@ -31,34 +31,34 @@ def classify_triangle(s_1: float, s_2: float, s_3: float) -> str:
     # This is also where any non-numeric types will throw errors. So watch for
     # that and return "invalid" if it occurs.
     try:
-        if not (s_1 > 0.0 and s_2 > 0.0 and s_3 > 0.0):
+        if not (side1 > 0.0 and side2 > 0.0 and side3 > 0.0):
             return 'invalid'
     except TypeError:
         return 'invalid'
     # Verify the triangle inequality holds for all combinations of sides. Use
     # the strict case to avoid degenerate
     # triangles.
-    ineq12 = s_1 + s_2 > s_3
-    ineq13 = s_1 + s_3 > s_2
-    ineq23 = s_2 + s_3 > s_1
+    ineq12 = side1 + side2 > side3
+    ineq13 = side1 + side3 > side2
+    ineq23 = side2 + side3 > side1
     if not (ineq12 and ineq13 and ineq23):
         return 'invalid'
     # Then, see if it is an equilateral triangle, which can't also be right.
-    if s_1 == s_2 and s_1 == s_3:
+    if side1 == side2 and side1 == side3:
         return 'equilateral'
     # Next, isosceles and scalene triangles can be right, so check that. Watch for floating point.
     # Since the order of the sides doesn't matter, check all possible combinations
-    right12 = s_1**2 + s_2**2 == s_3**2
-    right13 = s_1**2 + s_3**2 == s_2**2
-    right23 = s_2**2 + s_3**2 == s_1**2
+    right12 = side1**2 + side2**2 == side3**2
+    right13 = side1**2 + side3**2 == side2**2
+    right23 = side2**2 + side3**2 == side1**2
     if right12 or right13 or right23:
         result = 'right '
     else:
         result = ''
     # Now see if it is an isosceles triangle
-    iso12 = s_1 == s_2
-    iso13 = s_1 == s_3
-    iso23 = s_2 == s_3
+    iso12 = side1 == side2
+    iso13 = side1 == side3
+    iso23 = side2 == side3
     if iso12 or iso13 or iso23:
         result += 'isosceles'
     else:
