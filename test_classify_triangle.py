@@ -59,8 +59,9 @@ class TestClassifyTriangle(unittest.TestCase):
         inputs.append((1.0, 2.0, 2.5))
         inputs.append((3.0, 4.0, 5.0))
         inputs.append((1000, 2000, 2500))
-        for input in inputs:
-            result = classify_triangle(input[0], input[1], input[2])
+        for single_input in inputs:
+            result = classify_triangle(
+                single_input[0], single_input[1], single_input[2])
             self.assertTrue('scalene' in result,
                             'scalene not present when it should be')
             # It should not have "isosceles" or "equilateral." "right" is irrelevant.
@@ -110,8 +111,9 @@ class TestClassifyTriangle(unittest.TestCase):
         # https://en.wikipedia.org/wiki/Triangle#Condition_on_the_sides
         inputs.append((1.0, 2.0, 3.0))
         inputs.append((0.5, 0.5, 2.0))
-        for input in inputs:
-            result = classify_triangle(input[0], input[1], input[2])
+        for single_input in inputs:
+            result = classify_triangle(
+                single_input[0], single_input[1], single_input[2])
             # All of these should only have the string "invalid" with nothing else.
             self.assertTrue(
                 result == 'invalid', 'result should be invalid, but it is {0:s}'.format(result))
