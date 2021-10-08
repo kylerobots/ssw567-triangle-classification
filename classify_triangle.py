@@ -27,7 +27,7 @@ def classify_triangle(s1: float, s2: float, s3: float) -> str:
     try:
         if not (s1 > 0.0 and s2 > 0.0 and s3 > 0.0):
             return 'invalid'
-    except:
+    except TypeError:
         return 'invalid'
     # Verify the triangle inequality holds for all combinations of sides. Use the strict case to avoid degenerate
     # triangles.
