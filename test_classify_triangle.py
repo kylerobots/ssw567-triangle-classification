@@ -138,11 +138,14 @@ class TestClassifyTriangle(unittest.TestCase):
         results = parse_arguments(['1', '2', '3'])
         self.assertTupleEqual(results, expected_list,
                               'Int inputs not handled correctly')
-        # Other datatypes should not
+        # Other datatypes should not. The tests will stop after the first,
+        # because of SystemExit, so do this three seperate times.
         with self.assertRaises((argparse.ArgumentError, ValueError, SystemExit)):
             parse_arguments(['blah', '2.0', '3.0'])
-            parse_arguments(['1.0', 'blah', '3.0'])
+        with self.assertRaises((argparse.ArgumentError, ValueError, SystemExit)):
             parse_arguments(['1.0', '2.0', 'blah'])
+        with self.assertRaises((argparse.ArgumentError, ValueError, SystemExit)):
+            parse_arguments(['1.0', 'blah', '3.0'])
 
 
 if __name__ == '__main__':
