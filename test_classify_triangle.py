@@ -2,9 +2,10 @@
 Module to test the classify_triangle module.
 """
 
+import argparse
 from itertools import permutations
 import unittest
-from classify_triangle import classify_triangle
+from classify_triangle import classify_triangle, parse_arguments
 
 
 class TestClassifyTriangle(unittest.TestCase):
@@ -124,6 +125,24 @@ class TestClassifyTriangle(unittest.TestCase):
             # All of these should only have the string "invalid" with nothing else.
             self.assertTrue(
                 result == 'invalid', f'result should be invalid, but it is {result}')
+
+    def test_arg_parse(self):
+        """
+        @test Tests that the command line argument parser works as intended.
+        """
+        # Floats and ints should parse fine
+        expected_list = (1.0, 2.0, 3.0)
+        results = parse_arguments(['1.0', '2.0', '3.0'])
+        self.assertTupleEqual(results, expected_list,
+                              'Float inputs not handled correctly')
+        results = parse_arguments(['1', '2', '3'])
+        self.assertTupleEqual(results, expected_list,
+                              'Int inputs not handled correctly')
+        # Other datatypes should not
+        with self.assertRaises((argparse.ArgumentError, ValueError, SystemExit)):
+            parse_arguments(['blah', '2.0', '3.0'])
+            parse_arguments(['1.0', 'blah', '3.0'])
+            parse_arguments(['1.0', '2.0', 'blah'])
 
 
 if __name__ == '__main__':

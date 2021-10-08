@@ -2,6 +2,8 @@
 A module that helps classify types of triangles.
 """
 import argparse
+import sys
+from typing import List, Tuple
 
 
 def classify_triangle(side1: float, side2: float, side3: float) -> str:
@@ -67,7 +69,13 @@ def classify_triangle(side1: float, side2: float, side3: float) -> str:
     return result
 
 
-if __name__ == '__main__':
+def parse_arguments(arguments: List[str]) -> Tuple[float, float, float]:
+    """
+    @brief Parse the command line arguments into the triangle sides.
+    @param arguments The command line input from the user.
+    @return A tuple containing the three sides of the triangle.
+    @raise argparse.ArgumentError raised if the arguments are not convertable to floats.
+    """
     # Use of argparse comes from its documentation: https://docs.python.org/3/library/argparse.html
     parser = argparse.ArgumentParser(
         description='Classify a triangle based on side length.')
@@ -77,6 +85,12 @@ if __name__ == '__main__':
                         type=float, help='The second side of the triangle.')
     parser.add_argument('side_3', metavar='side_3',
                         type=float, help='The third side of the triangle.')
-    args = parser.parse_args()
-    TRIANGLE_TYPE = classify_triangle(args.side_1, args.side_2, args.side_3)
+    args = parser.parse_args(arguments)
+    result = (args.side_1, args.side_2, args.side_3)
+    return result
+
+
+if __name__ == '__main__':
+    (side_1, side_2, side_3) = parse_arguments(sys.argv[1:])
+    TRIANGLE_TYPE = classify_triangle(side_1, side_2, side_3)
     print(f'This is a {TRIANGLE_TYPE} triangle.')
